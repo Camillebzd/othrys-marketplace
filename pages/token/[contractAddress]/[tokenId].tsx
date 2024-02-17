@@ -130,90 +130,93 @@ export default function TokenPage() {
                 </Box>
               </Stack>
               <Stack spacing={"20px"}>
-                  {contractMetadata && (
-                      <Flex alignItems={"center"}>
-                          <Box borderRadius={"4px"} overflow={"hidden"} mr={"10px"}>
-                              <MediaRenderer
-                                  src={contractMetadata.image}
-                                  height="32px"
-                                  width="32px"
-                              />
-                          </Box>
-                          <Text fontWeight={"bold"}>{contractMetadata.name}</Text>
-                      </Flex>
-                  )}
-                  <Box mx={2.5}>
-                      <Text fontSize={"4xl"} fontWeight={"bold"}>{nft.metadata.name}</Text>
-                      <Link
-                          href={`/profile/${nft.owner}`}
-                      >
-                          <Flex direction={"row"} alignItems={"center"}>
-                              <Avatar  src='https://bit.ly/broken-link' h={"24px"} w={"24px"} mr={"10px"}/>
-                              <Text fontSize={"small"}>{nft.owner.slice(0,6)}...{nft.owner.slice(-4)}</Text>
-                          </Flex>
-                      </Link>
-                  </Box>
-                  
-                  <Stack backgroundColor={"#EEE"} p={2.5} borderRadius={"6px"}>
-                      <Text color={"darkgray"}>Price:</Text>
-                      <Skeleton isLoaded={!loadingMarketplace && !loadingDirectListing}>
-                          {directListing && directListing[0] ? (
-                              <Text fontSize={"3xl"} fontWeight={"bold"}>
-                                  {directListing[0]?.currencyValuePerToken.displayValue}
-                                  {" " + directListing[0]?.currencyValuePerToken.symbol}
-                              </Text>
-                          ) : auctionListing && auctionListing[0] ? (
-                              <Text fontSize={"3xl"} fontWeight={"bold"}>
-                                  {auctionListing[0]?.buyoutCurrencyValue.displayValue}
-                                  {" " + auctionListing[0]?.buyoutCurrencyValue.symbol}
-                              </Text>
-                          ) : (
-                              <Text fontSize={"3xl"} fontWeight={"bold"}>Not for sale</Text>
-                          )}
-                      </Skeleton>
-                      <Skeleton isLoaded={!loadingAuction}>
-                          {auctionListing && auctionListing[0] && (
-                              <Flex direction={"column"}>
-                                  <Text color={"darkgray"}>Bids starting from</Text>
-                              <Text fontSize={"3xl"} fontWeight={"bold"}>
-                                  {auctionListing[0]?.minimumBidCurrencyValue.displayValue}
-                                  {" " + auctionListing[0]?.minimumBidCurrencyValue.symbol}
-                              </Text>
-                              <Text></Text>
-                              </Flex>
-                          )}
-                      </Skeleton>
-                  </Stack>
-                  <Skeleton isLoaded={!loadingMarketplace || !loadingDirectListing || !loadingAuction}>
-                      <Stack spacing={5}>
-                          <Web3Button
-                              contractAddress={MARKETPLACE_ADDRESS}
-                              action={async () => buyListing()}
-                              isDisabled={(!auctionListing || !auctionListing[0]) && (!directListing || !directListing[0])}
-                          >Buy at asking price</Web3Button>
-                          <Text textAlign={"center"}>or</Text>
-                          <Flex direction={"column"}>
-                              <Input
-                                  mb={5}
-                                  defaultValue={
-                                      auctionListing?.[0]?.minimumBidCurrencyValue?.displayValue || 0
-                                  }
-                                  type={"number"}
-                                  onChange={(e) => setBidValue(e.target.value)}
-                              />
-                              <Web3Button
-                                  contractAddress={MARKETPLACE_ADDRESS}
-                                  action={async () => await createBidOffer()}
-                                  isDisabled={!auctionListing || !auctionListing[0]}
-                              >Place Bid</Web3Button>
-                          </Flex>
-                      </Stack>
+                {contractMetadata && (
+                  <Flex alignItems={"center"}>
+                    <Box borderRadius={"4px"} overflow={"hidden"} mr={"10px"}>
+                      <MediaRenderer
+                        src={contractMetadata.image}
+                        height="32px"
+                        width="32px"
+                      />
+                    </Box>
+                    <Text fontWeight={"bold"}>{contractMetadata.name}</Text>
+                  </Flex>
+                )}
+                <Box mx={2.5}>
+                  <Text fontSize={"4xl"} fontWeight={"bold"}>{nft.metadata.name}</Text>
+                  <Link
+                      href={`/profile/${nft.owner}`}
+                  >
+                    <Flex direction={"row"} alignItems={"center"}>
+                      <Avatar  src='https://bit.ly/broken-link' h={"24px"} w={"24px"} mr={"10px"}/>
+                      <Text fontSize={"small"}>{nft.owner.slice(0,6)}...{nft.owner.slice(-4)}</Text>
+                    </Flex>
+                  </Link>
+                </Box>
+                
+                <Stack backgroundColor={"#EEE"} p={2.5} borderRadius={"6px"}>
+                  <Text color={"darkgray"}>Price:</Text>
+                  <Skeleton isLoaded={!loadingMarketplace && !loadingDirectListing}>
+                    {directListing && directListing[0] ? (
+                      <Text fontSize={"3xl"} fontWeight={"bold"}>
+                        {directListing[0]?.currencyValuePerToken.displayValue}
+                        {" " + directListing[0]?.currencyValuePerToken.symbol}
+                      </Text>
+                    ) : auctionListing && auctionListing[0] ? (
+                      <Text fontSize={"3xl"} fontWeight={"bold"}>
+                        {auctionListing[0]?.buyoutCurrencyValue.displayValue}
+                        {" " + auctionListing[0]?.buyoutCurrencyValue.symbol}
+                      </Text>
+                    ) : (
+                      <Text fontSize={"3xl"} fontWeight={"bold"}>Not for sale</Text>
+                    )}
                   </Skeleton>
+                  <Skeleton isLoaded={!loadingAuction}>
+                    {auctionListing && auctionListing[0] && (
+                      <Flex direction={"column"}>
+                        <Text color={"darkgray"}>Bids starting from</Text>
+                      <Text fontSize={"3xl"} fontWeight={"bold"}>
+                        {auctionListing[0]?.minimumBidCurrencyValue.displayValue}
+                        {" " + auctionListing[0]?.minimumBidCurrencyValue.symbol}
+                      </Text>
+                      <Text></Text>
+                      </Flex>
+                    )}
+                  </Skeleton>
+                </Stack>
+                <Skeleton isLoaded={!loadingMarketplace || !loadingDirectListing || !loadingAuction}>
+                  <Stack spacing={5}>
+                    <Web3Button
+                      contractAddress={MARKETPLACE_ADDRESS}
+                      action={async () => buyListing()}
+                      isDisabled={(!auctionListing || !auctionListing[0]) && (!directListing || !directListing[0])}
+                    >
+                      Buy at asking price
+                    </Web3Button>
+                    <Text textAlign={"center"}>or</Text>
+                    <Flex direction={"column"}>
+                      <Input
+                        mb={5}
+                        defaultValue={
+                          auctionListing?.[0]?.minimumBidCurrencyValue?.displayValue || 0
+                        }
+                        type={"number"}
+                        onChange={(e) => setBidValue(e.target.value)}
+                      />
+                      <Web3Button
+                        contractAddress={MARKETPLACE_ADDRESS}
+                        action={async () => await createBidOffer()}
+                        isDisabled={!auctionListing || !auctionListing[0]}
+                      >
+                        Place Bid
+                      </Web3Button>
+                    </Flex>
+                  </Stack>
+                </Skeleton>
               </Stack>
             </SimpleGrid>
           )
         }
-          
     </Container>
   )
 };

@@ -4,11 +4,12 @@ import React from "react";
 import NFT from "./NFT";
 import Link from "next/link";
 import { NFT_COLLECTION_ADDRESS } from "../constants/addresses";
+import { EvmNft } from "moralis/common-evm-utils";
 
 type Props = {
   isLoading: boolean;
-  data: NFTType[] | undefined;
-  overrideOnclickBehavior?: (nft: NFTType) => void;
+  data: EvmNft[] | undefined;
+  overrideOnclickBehavior?: (nft: EvmNft) => void;
   emptyText?: string;
 };
 
@@ -28,14 +29,14 @@ export default function NFTGrid({
         data.map((nft) => 
           !overrideOnclickBehavior ? (
             <Link
-                href={`/token/${NFT_COLLECTION_ADDRESS}/${nft.metadata.id}`}
-                key={nft.metadata.id}
+              href={`/token/${nft.tokenAddress}/${nft.tokenId}`}
+              key={nft.tokenHash}
             >
               <NFT nft={nft} />
             </Link>
           ) : (
             <div
-              key={nft.metadata.id}
+              key={nft.tokenHash}
               onClick={() => overrideOnclickBehavior(nft)}
             >
               <NFT nft={nft} />
