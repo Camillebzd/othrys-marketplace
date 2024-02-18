@@ -34,19 +34,22 @@ export default function NFTComponent({ nft }: Props) {
   return (
     <Flex direction={"column"} backgroundColor={"#EEE"} justifyContent={"center"} padding={"2.5"} borderRadius={"6px"} borderColor={"lightgray"} borderWidth={1}>
       <Box borderRadius={"4px"} overflow={"hidden"}>
-        {/* <ThirdwebNftMedia metadata={nft} height={"100%"} width={"100%"} /> */}
         <Image 
           src={metadata?.image}
           alt={`NFT image of ${metadata?.name || "Unknow"}`}
         />
-        <Text>NFT IMAGE HERE</Text>
       </Box>
       <Text fontSize={"small"} color={"darkgray"}>Token ID #{nft.tokenId}</Text>
       <Text fontWeight={"bold"}>{metadata?.name || "Unknow"}</Text>
 
       <Box>
         {loadingMarketplace || loadingDirectListing || loadingAuction ? (
-          <Skeleton></Skeleton>
+          <Skeleton>
+            <Flex direction={"column"}>
+              <Text fontSize={"small"}>Price</Text>
+              <Text fontSize={"small"}>Not Listed</Text>
+            </Flex>
+          </Skeleton>
         ) : directListing && directListing[0] ? (
           <Box>
             <Flex direction={"column"}>

@@ -26,7 +26,6 @@ export default function Sell() {
     console.log("DATA:", data);
   return (
     <Container maxW={"1200px"} p={5}>
-      <Text>cc</Text>
       <Heading>Sell NFTs</Heading>
       <Text>Select which NFT to sell below.</Text>
       {!selectedNFT ? (
@@ -36,7 +35,7 @@ export default function Sell() {
           overrideOnclickBehavior={(nft) => {
             setSelectedNFT(nft);
           }}
-          emptyText={"You don't own any NFTs yet from this collection."}
+          emptyText={"You don't own any NFTs yet"}
         />
       ) : (
         <Flex justifyContent={"center"} my={10}>
